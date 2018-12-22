@@ -20,13 +20,13 @@ func (se *server) Registeration(ctx context.Context,
 	return res, nil
 }
 
-// RUN initialises a grpc server and add a listener to port
+// Run initialises a grpc server
 func Run() {
-
 	lis, err := net.Listen("tcp", "0.0.0.0:5051")
 	if err != nil {
 		panic(err)
 	}
+
 	s := grpc.NewServer()
 	registerpb.RegisterRegisterServiceServer(s, &server{})
 	if err := s.Serve(lis); err != nil {
