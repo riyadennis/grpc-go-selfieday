@@ -15,13 +15,14 @@ type server struct{}
 func (se *server) Registeration(ctx context.Context,
 	req *registerpb.RegisterRequest) (*registerpb.RegisterResponse, error) {
 	res := &registerpb.RegisterResponse{
-		Response: fmt.Sprintf("Successfully registered"),
+		Response: fmt.Sprintf("Registered %s", req.GetRegister().GetFirstName()),
 	}
 	return res, nil
 }
 
 // RUN initialises a grpc server and add a listener to port
 func Run() {
+
 	lis, err := net.Listen("tcp", "0.0.0.0:5051")
 	if err != nil {
 		panic(err)
@@ -31,5 +32,4 @@ func Run() {
 	if err := s.Serve(lis); err != nil {
 		panic(err)
 	}
-
 }
