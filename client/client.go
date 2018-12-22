@@ -15,6 +15,11 @@ func main() {
 	}
 	defer conn.Close()
 	c := registerpb.NewRegisterServiceClient(conn)
+	doUnary(c)
+}
+
+// doUnary send one request to the server
+func doUnary(cc registerpb.RegisterServiceClient) {
 	req := &registerpb.RegisterRequest{
 		Register: &registerpb.Register{
 			FirstName: "Peter",
@@ -22,7 +27,7 @@ func main() {
 			Email:     "pete@down.com",
 		},
 	}
-	resp, err := c.Registeration(context.Background(), req)
+	resp, err := cc.Registeration(context.Background(), req)
 	if err != nil {
 		panic(err)
 	}
