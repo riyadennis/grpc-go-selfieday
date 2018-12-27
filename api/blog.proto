@@ -1,0 +1,17 @@
+syntax = "proto3";
+package api;
+
+message blog{
+  string id = 1;
+  string heading=2;
+  string body=3;
+}
+message BlogRequest{
+  blog Blog = 1;
+}
+message BlogResponse{
+  string response = 1;
+}
+service BlogService{
+  rpc BlogService(BlogRequest) returns(BlogResponse){};
+}
