@@ -1,5 +1,5 @@
 syntax = "proto3";
-package registerpb;
+package api;
 
 message Register{
     string first_name = 1;
