@@ -1,4 +1,5 @@
-#!/bin/bash -e
 
 generate:
-	protoc registerpb/register.proto --go_out=plugins=grpc:.
+	protoc api/register.proto --go_out=plugins=grpc:.
+clean:
+		rm -rf vendor/

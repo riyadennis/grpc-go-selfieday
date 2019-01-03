@@ -16,6 +16,16 @@ message RegisterResponse{
     string response = 1;
 }
 
+message RegisterStreamRequest{
+  Register register = 1;
+}
+
+message RegisterStreamResponse{
+  string response = 1;
+}
+
 service RegisterService{
     rpc Registeration(RegisterRequest) returns (RegisterResponse){};
+
+    rpc RegisterationManyTimes(RegisterStreamRequest) returns (stream RegisterStreamResponse){};
 }
