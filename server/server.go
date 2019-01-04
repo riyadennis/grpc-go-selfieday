@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
+	"io"
 	"net"
 	"strconv"
 	"time"
@@ -32,6 +33,27 @@ func (se *server) RegisterationManyTimes(req *api.RegisterStreamRequest,
 		}
 		stream.Send(res)
 		time.Sleep(1000 * time.Millisecond)
+	}
+	return nil
+}
+
+func (se *server) ChatService(stream api.RegisterService_ChatServiceServer) error {
+	fmt.Print("Chat service client streaming\n")
+	result := ""
+	for {
+		req, err := stream.Recv()
+		if err == io.EOF {
+			fmt.Print("finished streaming")
+			response := &api.ChatResponse{
+				Response: result,
+			}
+			return stream.SendAndClose(response)
+		}
+		if err != nil {
+			panic(err)
+		}
+		message := req.GetChat().GetBody()
+		result += message + " ! "
 	}
 	return nil
 }

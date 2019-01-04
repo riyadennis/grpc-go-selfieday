@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"time"
 
 	"github.com/grpc-go-selfieday/api"
 	"google.golang.org/grpc"
@@ -18,6 +19,7 @@ func main() {
 	c := api.NewRegisterServiceClient(conn)
 	doUnary(c)
 	doServerStreaming(c)
+	doClientStreaming(c)
 }
 
 // doUnary send one request to the server
@@ -59,4 +61,50 @@ func doServerStreaming(cc api.RegisterServiceClient) {
 		}
 		fmt.Printf("response %v \n", res.GetResponse())
 	}
+}
+func doClientStreaming(cc api.RegisterServiceClient) {
+	fmt.Print("Doing client streaming")
+	stream, err := cc.ChatService(context.Background())
+	if err != nil {
+		panic(err)
+	}
+	req := []*api.ChatRequest{
+		&api.ChatRequest{
+			Chat: &api.Chat{
+				Id:      1,
+				Heading: "first message",
+				Body:    "Hello from the other side",
+			},
+		},
+		&api.ChatRequest{
+			Chat: &api.Chat{
+				Id:      2,
+				Heading: "second message",
+				Body:    " second Hello from the other side",
+			},
+		},
+		&api.ChatRequest{
+			Chat: &api.Chat{
+				Id:      3,
+				Heading: "third message",
+				Body:    " third Hello from the other side",
+			},
+		},
+		&api.ChatRequest{
+			Chat: &api.Chat{
+				Id:      4,
+				Heading: "fourth message",
+				Body:    "fourth Hello from the other side",
+			},
+		},
+	}
+	for _, r := range req {
+		stream.Send(r)
+		time.Sleep(1000 * time.Millisecond)
+	}
+	res, err := stream.CloseAndRecv()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("Response %v", res)
 }

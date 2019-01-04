@@ -24,11 +24,27 @@ message RegisterStreamResponse{
   string response = 1;
 }
 
+message chat{
+  int32 id = 1;
+  string heading=2;
+  string body=3;
+}
+
+message ChatRequest{
+  chat chat = 1;
+}
+
+message ChatResponse{
+  string response = 1;
+}
+
 service RegisterService{
     // Registeration unary call
     rpc Registeration(RegisterRequest) returns (RegisterResponse){};
 
     // RegisterationManyTimes server streaming
     rpc RegisterationManyTimes(RegisterStreamRequest) returns (stream RegisterStreamResponse){};
-    
+
+    // ChatService client streaming
+    rpc ChatService(stream ChatRequest) returns(ChatResponse){};
 }
