@@ -12,15 +12,32 @@ import (
 )
 
 func main() {
-	conn, err := grpc.Dial("0.0.0.0:5051", grpc.WithInsecure())
+	conn, err := grpc.Dial("0.0.0.0:5052", grpc.WithInsecure())
 	if err != nil {
 		panic(err)
 	}
 	defer conn.Close()
 	c := api.NewRegisterServiceClient(conn)
+	bc := api.NewBlogServiceClient(conn)
+	createBlog(bc)
 	doUnary(c)
 	doServerStreaming(c)
 	doClientStreaming(c)
+}
+
+func createBlog(blogClient api.BlogServiceClient) {
+	req := &api.CreateBlogRequest{
+		Blog: &api.Blog{
+			AuthorId: "1234",
+			Title:    "My first blog",
+			Content:  "this is a stupid blog",
+		},
+	}
+	resp, err := blogClient.CreateBlog(context.Background(), req)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("blog respons %v", resp.GetBlog())
 }
 
 // doUnary send one request to the server
