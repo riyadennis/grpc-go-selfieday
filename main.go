@@ -1,12 +1,9 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/grpc-go-selfieday/server"
+	"github.com/riyadennis/grpc-go-selfieday/server"
 )
 
 func main() {
-	fmt.Println("running")
 	server.Run()
 }

@@ -1,0 +1,28 @@
+syntax = "proto3";
+package api;
+
+// CreateBlogRequest needs all the information 
+// we need to handle blog creation.
+message CreateBlogRequest{
+    Blog blog = 1;
+}
+
+// BlogResponse will give success if blog request is a succcess
+// will give an error message if blog request failed.
+message CreateBlogResponse{
+    Blog blog = 1; // will have blog id
+}
+
+// Blog holds data about the blog 
+// including the content.
+message Blog{
+    string id = 1;
+    string author_id = 2;
+    string title = 3;
+    string content = 4;
+}
+
+service BlogService{
+    // BlogCreate unary call
+    rpc CreateBlog(CreateBlogRequest) returns (CreateBlogResponse){};
+}

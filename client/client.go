@@ -6,8 +6,9 @@ import (
 	"io"
 	"time"
 
-	"github.com/grpc-go-selfieday/api"
 	"google.golang.org/grpc"
+
+	"github.com/riyadennis/grpc-go-selfieday/api"
 )
 
 func main() {
