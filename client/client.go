@@ -87,28 +87,28 @@ func doClientStreaming(cc api.RegisterServiceClient) {
 		panic(err)
 	}
 	req := []*api.ChatRequest{
-		&api.ChatRequest{
+		{
 			Chat: &api.Chat{
 				Id:      1,
 				Heading: "first message",
 				Body:    "Hello from the other side",
 			},
 		},
-		&api.ChatRequest{
+		{
 			Chat: &api.Chat{
 				Id:      2,
 				Heading: "second message",
 				Body:    " second Hello from the other side",
 			},
 		},
-		&api.ChatRequest{
+		{
 			Chat: &api.Chat{
 				Id:      3,
 				Heading: "third message",
 				Body:    " third Hello from the other side",
 			},
 		},
-		&api.ChatRequest{
+		{
 			Chat: &api.Chat{
 				Id:      4,
 				Heading: "fourth message",
